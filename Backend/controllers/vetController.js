@@ -48,8 +48,19 @@ const authentificateVet = async (req, res) => {
     }
 }
 
+const vetProfile = async (req, res) => {
+    try {
+        const { vet } = req;
+        if(!vet) return res.status(404).json({error: `Vet not found`});
+        return res.status(200).json({message: `Vet profile`, vet: vet});
+    } catch (error) {
+        return res.status(500).json({error: `Internal server error: ${error.message}`});
+    }
+}
+
 export {
     addVet,
     confirmVet,
-    authentificateVet
+    authentificateVet,
+    vetProfile
 }
