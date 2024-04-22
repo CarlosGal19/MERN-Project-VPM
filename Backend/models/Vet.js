@@ -47,6 +47,11 @@ vetSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
+// Function that compares the password with the hashed password in the database
+vetSchema.methods.authenticate = function (password) {
+    return bcrypt.compare(password, this.password);
+}
+
 const Vet = mongoose.model('Vet', vetSchema);
 
 export default Vet;

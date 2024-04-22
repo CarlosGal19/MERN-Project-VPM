@@ -32,7 +32,23 @@ const confirmVet = async (req, res) => {
     }
 }
 
+const authentificateVet = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const vet = await Vet.findOne({ email });
+        if(!vet) return res.status(404).json({error: `Vet not found`});
+        if(!vet.confirmed) return res.status(403).json({error: `Vet not confirmed`});
+        if (!await vet.authenticate(password)) {
+            return res.status(401).json({error: `Invalid password`});
+        }
+        return res.status(200).json({message: `Vet logged`});
+    } catch (error) {
+        return res.status(500).json({error: `Internal server error: ${error.message}`});
+    }
+}
+
 export {
     addVet,
-    confirmVet
+    confirmVet,
+    authentificateVet
 }
