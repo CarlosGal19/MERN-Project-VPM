@@ -1,8 +1,8 @@
 import express from 'express';
-import { getVets } from '../controllers/vetController.js';
+import { getProfile, addVet } from '../controllers/vetController.js';
 
 const router = express.Router();
 
-router.get('/', getVets);
+router.post('/', addVet);
 
 export default router;
