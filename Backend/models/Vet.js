@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import generateID from '../helpers/generateID.js'
+import bcrypt from 'bcrypt';
 
 // MongoDB set ID automatically
 const vetSchema = mongoose.Schema({
@@ -8,7 +9,7 @@ const vetSchema = mongoose.Schema({
         required: true,
         trim: true
     },
-    password:{
+    password: {
         type: String,
         required: true
     },
@@ -35,6 +36,15 @@ const vetSchema = mongoose.Schema({
         type: Boolean,
         default: false
     }
+});
+
+// Function that hashes the password before saving it to the database
+vetSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) {
+        next();
+    }
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
 });
 
 const Vet = mongoose.model('Vet', vetSchema);
