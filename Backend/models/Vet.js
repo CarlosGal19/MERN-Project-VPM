@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import generateID from '../helpers/generateID.js'
 
 // MongoDB set ID automatically
 const vetSchema = mongoose.Schema({
@@ -27,7 +28,8 @@ const vetSchema = mongoose.Schema({
         default: null
     },
     token: {
-        type: String
+        type: String,
+        default: generateID()
     },
     confirmed: {
         type: Boolean,
