@@ -1,4 +1,5 @@
 import Vet from '../models/Vet.js';
+import generateJWT from '../helpers/generateJWT.js';
 
 const addVet = async (req, res) => {
     try {
@@ -41,7 +42,7 @@ const authentificateVet = async (req, res) => {
         if (!await vet.authenticate(password)) {
             return res.status(401).json({error: `Invalid password`});
         }
-        return res.status(200).json({message: `Vet logged`});
+        return res.status(200).json({message: `Vet logged`, token: generateJWT(vet._id, vet.name)});
     } catch (error) {
         return res.status(500).json({error: `Internal server error: ${error.message}`});
     }
