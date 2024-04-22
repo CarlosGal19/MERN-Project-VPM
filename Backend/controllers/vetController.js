@@ -1,5 +1,6 @@
 import Vet from '../models/Vet.js';
 import generateJWT from '../helpers/generateJWT.js';
+import generateID from '../helpers/generateID.js';
 
 const addVet = async (req, res) => {
     try {
@@ -58,9 +59,42 @@ const vetProfile = async (req, res) => {
     }
 }
 
+const resetPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) return res.status(400).json({error: `Email not provided`});
+        const vet = await Vet.findOne({ email });
+        if(!vet) return res.status(404).json({error: `Vet not found`});
+        vet.token = generateID();
+        await vet.save();
+        return res.status(200).json({message: `Token with instructions sent`, token: vet.token});
+    } catch (error) {
+        return res.status(500).json({error: `Internal server error: ${error.message}`});
+    }
+}
+
+const validateToken = async () => {
+    try {
+
+    } catch (error) {
+        return res.status(500).json({error: `Internal server error: ${error.message}`});
+    }
+}
+
+const newPassword = async () => {
+    try {
+
+    } catch (error) {
+        return res.status(500).json({error: `Internal server error: ${error.message}`});
+    }
+}
+
 export {
     addVet,
     confirmVet,
     authentificateVet,
-    vetProfile
+    vetProfile,
+    resetPassword,
+    validateToken,
+    newPassword
 }
