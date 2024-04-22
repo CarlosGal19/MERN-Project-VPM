@@ -85,9 +85,18 @@ const validateToken = async (req, res) => {
     }
 }
 
-const newPassword = async () => {
+const newPassword = async (req, res) => {
     try {
-
+        const { token } = req.params;
+        if(!token) return res.status(400).json({error: `Token not provided`});
+        const vetToken = await Vet.findOne({ token });
+        if(!vetToken) return res.status(404).json({error: `Vet not found`});
+        const { password } = req.body;
+        if(!password) return res.status(400).json({error: `Password not provided`});
+        vetToken.password = password;
+        vetToken.token = null;
+        await vetToken.save();
+        return res.status(200).json({message: `Password updated`});
     } catch (error) {
         return res.status(500).json({error: `Internal server error: ${error.message}`});
     }
