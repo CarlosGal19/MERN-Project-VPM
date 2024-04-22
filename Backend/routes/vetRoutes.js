@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProfile, addVet } from '../controllers/vetController.js';
+import { addVet } from '../controllers/vetController.js';
 
 const router = express.Router();
 
