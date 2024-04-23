@@ -56,7 +56,21 @@ const removePatient = async (req, res) => {
 }
 
 const updatePatient = async (req, res) => {
-
+    try {
+        const id = req.params.id;
+        if(!id) {
+            return res.status(400).json({ error: 'Patient ID not provided' });
+        }
+        const patient = await Patient.findById({ _id: id });
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+        patient.set(req.body);
+        await patient.save();
+        return res.status(200).json({ message: 'Patient updated', patient: patient });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
 }
 
 export {
