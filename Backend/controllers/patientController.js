@@ -11,9 +11,13 @@ const addPatient = async (req, res) => {
     }
 }
 
-const getPatients = (req, res) => {
+const getPatients = async (req, res) => {
     try {
-
+        const patients = await Patient.find({ vet_id: req.vet._id });
+        if (!patients) {
+            return res.status(404).json({ message: 'No patients found' });
+        }
+        return res.status(200).json({message: 'Patients found', patients: patients});
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
