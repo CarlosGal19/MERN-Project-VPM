@@ -6,7 +6,7 @@ const patientSchema = new mongoose.Schema({
         required: true
     },
     owner: {
-        type: Number,
+        type: String,
         required: true
     },
     email: {
