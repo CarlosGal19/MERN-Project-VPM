@@ -61,7 +61,7 @@ const updatePatient = async (req, res) => {
         if(!id) {
             return res.status(400).json({ error: 'Patient ID not provided' });
         }
-        const patient = await Patient.findById({ _id: id });
+        const patient = await Patient.findOne({ _id: id, vet_id: req.vet._id});
         if (!patient) {
             return res.status(404).json({ message: 'Patient not found' });
         }
