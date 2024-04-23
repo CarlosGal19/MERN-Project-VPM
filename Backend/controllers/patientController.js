@@ -23,8 +23,34 @@ const getPatients = async (req, res) => {
     }
 };
 
+const getPatient = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if(!id) {
+            return res.status(400).json({ error: 'Patient ID not provided' });
+        }
+        const patient = await Patient.findOne({ _id: id, vet_id: req.vet._id });
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+        return res.status(200).json({ message: 'Patient found', patient: patient });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+const removePatient = async (req, res) => {
+
+}
+
+const updatePatient = async (req, res) => {
+
+}
 
 export {
     getPatients,
-    addPatient
+    addPatient,
+    getPatient,
+    removePatient,
+    updatePatient
 };
