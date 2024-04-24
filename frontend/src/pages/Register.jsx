@@ -29,7 +29,7 @@ const Register = () => {
                 <nav className='mt-10'>
                     <ul className="lg:flex lg:justify-between mt-5 text-center">
                         <li>
-                        <Link to="/" className="text-indigo-500 hover:text-indigo-900">Do you already have an account?</Link>
+                        <Link to="/" className="text-indigo-500 hover:text-indigo-900">Do you already have an account? Login</Link>
                         </li>
                         <li>
                         <Link to="/forget-password" className="text-indigo-500 hover:text-indigo-900">Forget password?</Link>
