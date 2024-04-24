@@ -1,3 +1,6 @@
+// Component that renders the login form and gives perform the login action
+import { Link } from 'react-router-dom'
+
 const Login = () => {
   return (
     <>
@@ -16,6 +19,16 @@ const Login = () => {
           </div>
           <input type="submit" value="Login" className="bg-indigo-700 text-white font-bold rounded-xl w-full py-3 uppercase mt-5  hover:cursor-pointer hover:bg-indigo-900 md:w-auto px-16" />
         </form>
+        <nav className='mt-10'>
+          <ul className="lg:flex lg:justify-between mt-5 text-center">
+            <li>
+              <Link to="/forget-password" className="text-indigo-500 hover:text-indigo-900">Forget password?</Link>
+            </li>
+            <li>
+              <Link to="/register" className="text-indigo-500 hover:text-indigo-900">Register</Link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </>
   )
