@@ -7,8 +7,8 @@ const Login = () => {
       <div>
         <h1 className="text-indigo-600 font-black text-6xl">Login and Manage your <span className="text-black">Patients</span></h1>
       </div>
-      <div>
-        <form action="">
+      <div className='mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white'>
+        <form>
           <div className="my-6">
             <label htmlFor="email" className="uppercase text-gray-600 block text-xl font-bold">Email</label>
             <input type="email" id="email" placeholder="Register email" className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"/>
