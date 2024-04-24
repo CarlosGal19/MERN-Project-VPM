@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom"
 const AuthLayout = () => {
   return (
     <>
-        <h1>From Auth Layout</h1>
-        <h2>Form</h2>
+      <main className="container mx-auto md:grid md:grid-cols-2 mt-16 gap-12 p-5">
         <Outlet />
+      </main>
     </>
   )
 }
