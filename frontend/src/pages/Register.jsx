@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
 import Alert from '../components/Alert'
 
 const Register = () => {
@@ -11,30 +12,50 @@ const Register = () => {
     const [alert, setAlert] = useState(null);
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if([name, email, password, repeatPassword].includes('')) {
             setAlert({
-                type: 'danger',
+                type: 'alert',
                 msg: 'All fields are required'
             });
             return;
         }
         if(password !== repeatPassword) {
             setAlert({
-                type: 'danger',
+                type: 'alert',
                 msg: 'Passwords do not match'
             });
             return;
         }
         if(password.length < 6) {
             setAlert({
-                type: 'danger',
+                type: 'alert',
                 msg: 'Password must be at least 6 characters'
             });
             return;
         }
         setAlert(null);
+
+        try {
+            const url = 'http://localhost:4000/vet';
+            const response = await axios.post(url, {
+                name,
+                email,
+                password
+            });
+            if(response.status === 200) {
+                setAlert({
+                    type: 'success',
+                    msg: 'Check your email to activate your account. Redirecting to login...'
+                });
+                // setTimeout(() => {
+                //     window.location.href = '/';
+                // }, 3000);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     return (
