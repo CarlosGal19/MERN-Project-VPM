@@ -38,7 +38,7 @@ const Register = () => {
         setAlert(null);
 
         try {
-            const url = 'http://localhost:4000/vet';
+            const url = import.meta.env.VITE_BACKEND_VET_URL;
             const response = await axios.post(url, {
                 name,
                 email,
