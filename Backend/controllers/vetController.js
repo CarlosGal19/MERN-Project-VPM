@@ -1,18 +1,24 @@
 import Vet from '../models/Vet.js';
 import generateJWT from '../helpers/generateJWT.js';
 import generateID from '../helpers/generateID.js';
+import registerEmail from '../helpers/registerEmail.js';
 
 const addVet = async (req, res) => {
     try {
         // Avoid duplicate email
-        const { email } = req.body;
+        const { email, name } = req.body;
         const vetExist = await Vet.findOne({ email });
         if (vetExist) {
             return res.status(400).json({ error: `Email already exists` });
         }
         const vet = new Vet(req.body);
         const vetSaved = await vet.save();
-
+        // Send email with confirmation link
+        registerEmail({
+            email,
+            name,
+            token: vetSaved.token
+        })
         return res.status(200).json({ message: `Vet added`, vet: vetSaved });
     } catch (error) {
         return res.status(500).json({ error: `Internal server error: ${error.message}` });
