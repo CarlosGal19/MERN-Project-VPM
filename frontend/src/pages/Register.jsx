@@ -49,9 +49,9 @@ const Register = () => {
                     type: 'success',
                     msg: 'Check your email to activate your account. Redirecting to login...'
                 });
-                // setTimeout(() => {
-                //     window.location.href = '/';
-                // }, 3000);
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 3000);
             }
         } catch (error) {
             console.log(error.message);
