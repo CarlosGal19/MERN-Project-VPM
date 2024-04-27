@@ -30,7 +30,7 @@ const confirmVet = async (req, res) => {
         const { token } = req.params;
         if (!token) return res.status(400).json({ error: `Token not provided` });
         const vetConfirm = await Vet.findOne({ token });
-        if (!vetConfirm) return res.status(404).json({ error: `Vet not found` });
+        if (!vetConfirm) return res.status(404).json({ error: `Vet not found or token invalid. Maybe the token has been already confirmed` });
         vetConfirm.token = null;
         vetConfirm.confirmed = true;
         await vetConfirm.save();
