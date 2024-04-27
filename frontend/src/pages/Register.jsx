@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import Alert from '../components/Alert'
 
 const Register = () => {
 
@@ -7,6 +8,34 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
+    const [alert, setAlert] = useState(null);
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if([name, email, password, repeatPassword].includes('')) {
+            setAlert({
+                type: 'danger',
+                msg: 'All fields are required'
+            });
+            return;
+        }
+        if(password !== repeatPassword) {
+            setAlert({
+                type: 'danger',
+                msg: 'Passwords do not match'
+            });
+            return;
+        }
+        if(password.length < 6) {
+            setAlert({
+                type: 'danger',
+                msg: 'Password must be at least 6 characters'
+            });
+            return;
+        }
+        setAlert(null);
+    }
 
     return (
         <>
@@ -14,7 +43,10 @@ const Register = () => {
                 <h1 className="text-indigo-600 font-black text-6xl">Create your account and manage your <span className="text-black">Patients</span></h1>
             </div>
             <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
-                <form>
+                {
+                    alert && <Alert type={alert.type} msg={alert.msg} />
+                }
+                <form onSubmit={handleSubmit}>
                     <div className="my-6">
                         <label htmlFor="name" className="uppercase text-gray-600 block text-xl font-bold">Name</label>
                         <input type="text" id="name" placeholder="Your name" className="border w-full p-3 mt-3 bg-gray-50 rounded-xl" value={name} onChange={e => setName(e.target.value)}/>
