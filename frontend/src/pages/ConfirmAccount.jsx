@@ -11,7 +11,7 @@ const ConfirmAccount = () => {
 
   const checkToken = async () => {
     try {
-      const url = `http://localhost:4000/vet/confirm/${id}`;
+      const url = `${import.meta.env.VITE_BACKEND_VET_URL}/confirm/${id}`;
       const response = await axios.get(url);
       if(response.status === 200) {
         setAlert({
@@ -19,17 +19,17 @@ const ConfirmAccount = () => {
           msg: 'Account confirmed. Redirecting to login...'
         });
         setTimeout(() => {
-          window.location.href = '/';
-        }, 5000);
+            window.location.href = '/';
+          }, 5000);
+        }
+      } catch (error) {
+        setAlert({
+          type: 'alert',
+          msg: error.response.data.error
+        });
       }
-    } catch (error) {
-      setAlert({
-        type: 'alert',
-        msg: error.response.data.error
-      });
+      setLoad(false);
     }
-    setLoad(false);
-  }
 
   useEffect(() => {
     checkToken();
