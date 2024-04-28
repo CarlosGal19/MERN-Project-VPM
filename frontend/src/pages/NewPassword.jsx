@@ -7,7 +7,7 @@ const NewPassword = () => {
 
     const [alert, setAlert] = useState(null);
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordUpdated, setPasswordUpdated] = useState(false);
 
     const { token } = useParams();
 
@@ -17,13 +17,6 @@ const NewPassword = () => {
             setAlert({
                 type: 'alert',
                 msg: 'Password is required and must be at least 6 characters'
-            });
-            return;
-        }
-        if (password !== confirmPassword) {
-            setAlert({
-                type: 'alert',
-                msg: 'Passwords do not match'
             });
             return;
         }
@@ -48,6 +41,7 @@ const NewPassword = () => {
                     type: 'success',
                     msg: response.data.message
                 });
+                setPasswordUpdated(true);
             }
             return;
         } catch (error) {
@@ -72,15 +66,15 @@ const NewPassword = () => {
                     <label htmlFor="password" className="uppercase text-gray-600 block text-xl font-bold">Password</label>
                     <input type="password" value={password} onChange={e => setPassword(e.target.value)} id="password" placeholder="Your password" className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"/>
                 </div>
-                <div className="my-6">
-                    <label htmlFor="confirm-password" className="uppercase text-gray-600 block text-xl font-bold">Confirm Password</label>
-                    <input value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} type="password" id="confirm-password" placeholder="Confirm your password" className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"/>
-                </div>
                 <input type="submit" value="Change Password" className="bg-indigo-700 text-white font-bold rounded-xl w-full py-3 uppercase mt-5  hover:cursor-pointer hover:bg-indigo-900 md:w-auto px-16" />
             </form>
-            <nav className='mt-10 text-center'>
-                <Link to="/" className="text-indigo-500 hover:text-indigo-900">Login</Link>
-            </nav>
+            {
+                passwordUpdated && (
+                    <nav className='mt-10 text-center'>
+                        <Link to="/" className="text-indigo-500 hover:text-indigo-900">Login</Link>
+                    </nav>
+                )
+            }
           </div>
     </>
   )
