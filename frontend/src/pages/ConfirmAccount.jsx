@@ -1,39 +1,38 @@
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Alert from '../components/Alert';
 
 const ConfirmAccount = () => {
 
-  const [alert, setAlert] = useState(null);
+  const [confirm, setConfirm] = useState(false);
   const [load, setLoad] = useState(true);
+  const [alert, setAlert] = useState(null);
   const { id } = useParams();
 
-  const checkToken = async () => {
-    try {
-      const url = `${import.meta.env.VITE_BACKEND_VET_URL}/confirm/${id}`;
-      const response = await axios.get(url);
-      if(response.status === 200) {
-        setAlert({
-          type: 'success',
-          msg: 'Account confirmed. Redirecting to login...'
-        });
-        setTimeout(() => {
-            window.location.href = '/';
-          }, 5000);
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const url = `${import.meta.env.VITE_BACKEND_VET_URL}/confirm/${id}`;
+        const response = await axios.get(url);
+        if (response.status === 200) {
+          setConfirm(true);
+          setAlert({
+            type: 'success',
+            msg: 'Account confirmed. Go to login...'
+          });
         }
       } catch (error) {
         setAlert({
           type: 'alert',
           msg: error.response.data.error
         });
+      } finally {
+        setLoad(false);
       }
-      setLoad(false);
-    }
-
-  useEffect(() => {
-    checkToken();
-  }, []);
+    };
+    return () => checkToken();
+  }, [id]);
 
   return (
     <>
@@ -44,6 +43,16 @@ const ConfirmAccount = () => {
         {
           !load && <Alert type={alert.type} msg={alert.msg} />
         }
+        {
+          confirm && (
+            <>
+              <nav className='mt-10 text-center'>
+                <Link to="/" className="text-indigo-500 hover:text-indigo-900">Login</Link>
+              </nav>
+            </>
+          )
+        }
+
       </div>
     </>
   )
