@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import axios from 'axios'
+import axiosClient from '../config/axios'
 import Alert from '../components/Alert'
 
 const Register = () => {
@@ -38,8 +38,7 @@ const Register = () => {
         setAlert(null);
 
         try {
-            const url = import.meta.env.VITE_BACKEND_VET_URL;
-            const response = await axios.post(url, {
+            const response = await axiosClient.post('/', {
                 name,
                 email,
                 password

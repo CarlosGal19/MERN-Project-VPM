@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import axiosClient from '../config/axios';
 import Alert from '../components/Alert';
 
 const ConfirmAccount = () => {
@@ -13,13 +13,12 @@ const ConfirmAccount = () => {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const url = `${import.meta.env.VITE_BACKEND_VET_URL}/confirm/${id}`;
-        const response = await axios.get(url);
+        const response = await axiosClient.get(`/confirm/${id}`);
         if (response.status === 200) {
           setConfirm(true);
           setAlert({
             type: 'success',
-            msg: 'Account confirmed. Go to login...'
+            msg: 'Account confirmed. Go to login'
           });
         }
       } catch (error) {
