@@ -20,7 +20,12 @@ const ForgetPassword = () => {
           }
           setAlert(null);
           const response = await axiosClient.post('/reset-password', { email });
-          console.log(response);
+          if (response.status === 200){
+            setAlert({
+              type: 'success',
+              msg: response.data.message
+            });
+          }
         } catch (error) {
           setAlert({
             type: 'alert',
