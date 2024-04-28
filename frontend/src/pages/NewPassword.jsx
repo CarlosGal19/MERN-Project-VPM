@@ -34,7 +34,15 @@ const NewPassword = () => {
 
     const resetPassword = async () => {
         try {
-            const response = await axiosClient.post(`/reset-password/${token}`, { password, token });
+            let response = await axiosClient.get(`/reset-password/${token}`, { token });
+            if(response.status !== 200){
+                setAlert({
+                    type: 'error',
+                    msg: response.data.message
+                });
+                return;
+            }
+            response = await axiosClient.post(`/reset-password/${token}`, { password, token });
             if(response.status === 200){
                 setAlert({
                     type: 'success',
