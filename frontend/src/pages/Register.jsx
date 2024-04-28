@@ -53,7 +53,10 @@ const Register = () => {
                 }, 3000);
             }
         } catch (error) {
-            console.log(error.message);
+            setAlert({
+                type: 'alert',
+                msg: error.response.data.msg
+            });
         }
     }
 
