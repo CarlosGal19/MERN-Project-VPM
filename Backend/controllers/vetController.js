@@ -2,6 +2,7 @@ import Vet from '../models/Vet.js';
 import generateJWT from '../helpers/generateJWT.js';
 import generateID from '../helpers/generateID.js';
 import registerEmail from '../helpers/registerEmail.js';
+import forgetPassword from '../helpers/forgetPasswordEmail.js';
 
 const addVet = async (req, res) => {
     try {
@@ -73,6 +74,11 @@ const resetPassword = async (req, res) => {
         if (!vet) return res.status(404).json({ error: `Vet not found` });
         vet.token = generateID();
         await vet.save();
+        forgetPassword({
+            email,
+            name: vet.name,
+            token: vet.token
+        })
         return res.status(200).json({ message: `Token with instructions sent`, token: vet.token });
     } catch (error) {
         return res.status(500).json({ error: `Internal server error: ${error.message}` });
